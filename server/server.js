@@ -12,6 +12,9 @@ app.use(express.json()); // ranslates the JSON the browser sends into a JS objec
 
 app.get('/', (req, res) => res.json({ message: 'Alzikrayat API is running' }));
 
+app.get('/', (req, res) => res.json({ message: 'Alzikrayat API is running' }));
+app.use('/api/auth', require('./routes/authRoutes'));
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB connected');

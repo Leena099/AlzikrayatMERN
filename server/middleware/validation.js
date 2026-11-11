@@ -21,4 +21,4 @@ const validate = (schema) => (req, res, next) => {
     next();
 };
 
-module.exports = (register, login, validate);
+module.exports = {register, login, validate};
