@@ -17,6 +17,10 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/photos', require('./routes/photoRoutes'));
 
+app.use('/api/photos/:id/comments', require('./routes/commentRoutes'));
+
+app.use(require('./middleware/errorHandler'));
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB connected');
