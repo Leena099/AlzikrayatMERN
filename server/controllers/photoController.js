@@ -28,7 +28,7 @@ exports.create = async (req, res, next) => {
         if (!title || !userId)
             return res.status(400).json({message: 'Tile and user Id are required'});
 
-        const photo = await Photo.create({userId, fileName: req.file.fileName, title, description});
+        const photo = await Photo.create({userId, fileName: req.file.filename, title, description});
         res.status(201).json(photo);
     } catch (err) {
         next(err);
