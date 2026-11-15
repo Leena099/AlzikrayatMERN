@@ -15,10 +15,15 @@ const login = joi.object({
     password: joi.string().required()
 });
 
+const comment = joi.object({
+    userId: joi.string().required(),
+    comment: joi.string().required()
+});
+
 const validate = (schema) => (req, res, next) => {
     const {error} = schema.validate(req.body);
     if (error) return res.status(400).json({message: error.details[0].message});
     next();
 };
 
-module.exports = {register, login, validate};
+module.exports = {register, login, comment, validate};
