@@ -17,5 +17,6 @@ const upload = multer({
 router.get('/', photoController.getAll);
 router.get('/:id', photoController.getOne);
 router.post('/', upload.single('image'), photoController.create);
+router.delete('/:id', photoController.remove);
 
 module.exports = router;

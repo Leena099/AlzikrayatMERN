@@ -1,3 +1,7 @@
+const fs = require('fs');
+const path = require('path');
+const Comment = require('../models/Comment');
+
 const Photo = require('../models/Photo');
 
 exports.getAll = async (req, res, next) => {
@@ -35,7 +39,23 @@ exports.create = async (req, res, next) => {
     }
 };
 
-
+exports.remove = async (req, res, next) => {
+    try{
+        const photo = await Photo.findById(req.params.id);
+        if (!photos) 
+            return res.status(404).json({message: 'Photo not found'});
+        if (photo.userId.toString() !== req.body?.userId) {
+            return res.status(403).json({message: 'You can only delete your photos'});
+        }
+        fs.unlink(path.join(__dirname, '../uploads', photo.fileName), () => {}); 
+        await Comment.deleteMany({ photoId: photo._id });
+        await photo.deleteOne();
+        res.json({ message: 'Photo deleted' });
+        } catch (err) {
+            next(err);
+        }
+    
+};
 
 
 
