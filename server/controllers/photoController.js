@@ -42,7 +42,7 @@ exports.create = async (req, res, next) => {
 exports.remove = async (req, res, next) => {
     try{
         const photo = await Photo.findById(req.params.id);
-        if (!photos) 
+        if (!photo) 
             return res.status(404).json({message: 'Photo not found'});
         if (photo.userId.toString() !== req.body?.userId) {
             return res.status(403).json({message: 'You can only delete your photos'});
