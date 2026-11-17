@@ -12,7 +12,7 @@ export default function Navbar({ user, onLogout }) {
             <button className="btn" onClick={onLogout}>Logout</button>
           </>
         ) : (
-          <Link to="/login">Please Login</Link>
+          <Link to="/login">Login</Link>
         )}
       </div>
     </nav>
