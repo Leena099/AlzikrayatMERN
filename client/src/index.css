@@ -3,3 +3,63 @@ body {
   font-family: system-ui, sans-serif;
   background: #E8D8CE;
 }
+
+.navbar { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+  padding: 12px 24px; 
+  background: #6b4f3f; 
+  color: #fff; 
+}
+
+.navbar a { 
+  color: #fff; 
+  text-decoration: none; 
+}
+
+.brand { 
+  font-weight: bold; 
+  font-size: 1.2rem; 
+}
+
+.nav-links { 
+  display: flex; 
+  align-items: center; 
+  gap: 16px; 
+}
+
+.container { 
+  max-width: 900px; 
+  margin: 0 auto; 
+  padding: 24px 16px; 
+}
+
+.auth-form { 
+  max-width: 400px; 
+  margin: 0 auto; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
+
+.auth-form input { 
+  padding: 10px; 
+  border: 1px solid #b9a79a; 
+  border-radius: 6px; 
+}
+
+.btn { 
+  padding: 10px 16px; 
+  border: none; 
+  border-radius: 6px; 
+  background: #8c6a55; 
+  color: #fff; 
+  cursor: pointer; 
+}
+
+.error { 
+  color: #b00020; 
+}
