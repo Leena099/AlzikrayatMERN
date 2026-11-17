@@ -26,7 +26,7 @@ export default function App() {
     <>
       <Navbar user={user} onLogout={logout} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home user={user} />} />
         <Route path="/gallery" element={<Gallery user={user} />} />
         <Route path="/photos/:id" element={<PhotoDetail user={user} />} />
         <Route path="/login" element={<LoginRegister onLogin={login} />} />
