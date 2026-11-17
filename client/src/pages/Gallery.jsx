@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import PhotoCard from '../components/PhotoCard';
+import UploadForm from '../components/UploadForm';
 
-export default function Gallery() {
+export default function Gallery({ user }) {
   const [photos, setPhotos] = useState([]);
   const [view, setView] = useState('grid');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [refresh, setRefresh] = useState(0);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetch('/api/photos')
@@ -21,16 +24,35 @@ export default function Gallery() {
         setError('Could not load photos');
         setLoading(false);
       });
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="container">
       <div className="gallery-header">
         <h2>Gallery</h2>
-        <button className="btn" onClick={() => setView(view === 'grid' ? 'list' : 'grid')}>
-          {view === 'grid' ? 'List view' : 'Grid view'}
-        </button>
+        <div className="header-buttons">
+          {user && (
+            <button className="btn" onClick={() => setShowForm(!showForm)}>
+              {showForm ? 'Cancel' : 'Add photo'}
+            </button>
+          )}
+          <button className="btn" onClick={() => setView(view === 'grid' ? 'list' : 'grid')}>
+            {view === 'grid' ? 'List view' : 'Grid view'}
+          </button>
+        </div>
       </div>
+
+      {!user && <p>Please login to upload photos.</p>}
+
+      {user && showForm && (
+        <UploadForm
+          user={user}
+          onUploaded={() => {
+            setRefresh(r => r + 1);
+            setShowForm(false);
+          }}
+        />
+      )}
 
       {loading && <p>Loading...</p>}
       {error && <p className="error">{error}</p>}

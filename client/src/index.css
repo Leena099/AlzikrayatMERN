@@ -120,3 +120,25 @@ body {
   margin: 0;color: #6b5a4e; 
   font-size: 0.9rem; 
 }
+
+.upload-form { 
+  background: #fff; 
+  padding: 16px; 
+  border-radius: 8px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 10px; 
+  margin-bottom: 24px; 
+}
+
+.upload-form input, .upload-form textarea { 
+  padding: 10px; 
+  border: 1px solid #b9a79a; 
+  border-radius: 6px; 
+  font-family: inherit; 
+}
+
+.header-buttons { 
+  display: flex; 
+  gap: 8px; 
+}
