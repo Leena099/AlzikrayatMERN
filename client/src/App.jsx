@@ -6,7 +6,7 @@ import Gallery from './pages/Gallery';
 import PhotoDetail from './pages/PhotoDetail';
 import LoginRegister from './pages/LoginRegister';
 
-export default function App() {
+export default function App() { 
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('user');
     return saved ? JSON.parse(saved) : null;
