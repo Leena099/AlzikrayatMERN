@@ -25,6 +25,35 @@ Alzikrayat is a full-stack photo-sharing application built with the MERN stack. 
 * Open a second terminal in the `client` folder and run `npm install`, then `npm run dev`.
 * Visit http://localhost:5173 in your browser.
 
+## Project 4: Track D (Real-Time WebSocket)
+
+### Selected Track and Reason
+
+I chose Track D (Socket.io) because live updates make a photo-sharing app feel interactive: people viewing the same photo see new comments instantly, without refreshing the page.
+
+### What It Does
+
+* New comments appear instantly for everyone viewing the same photo (one Socket.io room per photo page).
+* Deleted comments disappear instantly for everyone viewing that photo.
+* When someone uploads a photo, every open Gallery shows a notification and reloads the photos.
+
+### Setup
+
+* Run `npm install` in `server` (adds `socket.io`) and in `client` (adds `socket.io-client`).
+* No new environment variables are needed. The `.env` file stays the same (`MONGODB_URI` and `PORT`).
+* The Vite proxy in `client/vite.config.js` forwards `/socket.io` to the server with WebSocket support.
+
+### Socket.io Events
+
+* `joinPhoto` / `leavePhoto` (client to server): enter or leave the room of a photo.
+* `newComment` (server to room): a new comment was added.
+* `commentDeleted` (server to room): a comment was deleted.
+* `newPhoto` (server to everyone): a photo was uploaded.
+
+### How to Run
+
+Run `npm run dev` in `server` and in `client`, then open http://localhost:5173 in two browser windows to see the live updates.
+
 ## Student Name
 
 Leina
