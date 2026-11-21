@@ -4,5 +4,6 @@ const { comment, validate } = require('../middleware/validation');
 
 router.get('/', commentController.getByPhoto);
 router.post('/', validate(comment), commentController.create);
+router.delete('/:commentId', commentController.remove);
 
 module.exports = router;
