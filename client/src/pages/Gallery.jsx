@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 import PhotoCard from '../components/PhotoCard';
 import UploadForm from '../components/UploadForm';
 
@@ -9,6 +10,7 @@ export default function Gallery({ user }) {
   const [error, setError] = useState('');
   const [refresh, setRefresh] = useState(0);
   const [showForm, setShowForm] = useState(false);
+  const [notice, setNotice] = useState('');
 
   useEffect(() => {
     fetch('/api/photos')
@@ -26,6 +28,16 @@ export default function Gallery({ user }) {
       });
   }, [refresh]);
 
+  useEffect(() => {
+    const socket = io();
+    socket.on('newPhoto', (data) => {
+      setRefresh(r => r + 1);
+      setNotice(`New photo: ${data.title}`);
+      setTimeout(() => setNotice(''), 4000);
+    });
+    return () => socket.disconnect();
+  }, []);
+
   return (
     <div className="container">
       <div className="gallery-header">
@@ -41,6 +53,8 @@ export default function Gallery({ user }) {
           </button>
         </div>
       </div>
+
+      {notice && <p className="notice">{notice}</p>}
 
       {!user && <p>Please login to upload photos.</p>}
 

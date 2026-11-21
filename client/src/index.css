@@ -284,3 +284,23 @@ a.btn {
     flex-direction: column; 
   }
 }
+
+.notice { 
+  background: #fff3cd; 
+  color: #6b4f3f; 
+  padding: 10px 14px; 
+  border-radius: 6px; 
+  margin-bottom: 12px; 
+}
+
+.comment-head { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.btn-small { 
+  padding: 4px 10px; 
+  font-size: 0.8rem; 
+}
