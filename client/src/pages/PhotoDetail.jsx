@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import CommentForm from '../components/CommentForm';
+import { io } from 'socket.io-client';
 
 export default function PhotoDetail({ user }) {
   const { id } = useParams();
@@ -26,6 +27,26 @@ export default function PhotoDetail({ user }) {
       .then(data => setComments(data));
   }, [id]);
 
+    useEffect(() => {
+    const socket = io();
+    socket.emit('joinPhoto', id);
+
+    socket.on('newComment', (comment) => {
+      setComments(prev =>
+        prev.some(c => c._id === comment._id) ? prev : [...prev, comment]
+      );
+    });
+
+        socket.on('commentDeleted', (commentId) => {
+      setComments(prev => prev.filter(c => c._id !== commentId));
+    });
+
+    return () => {
+      socket.emit('leavePhoto', id);
+      socket.disconnect();
+    };
+  }, [id]);
+  
   const handleDelete = async () => {
     if (!window.confirm('Delete this photo?')) return;
     const res = await fetch(`/api/photos/${id}`, {
@@ -35,6 +56,21 @@ export default function PhotoDetail({ user }) {
     });
     if (res.ok) {
       navigate('/gallery');
+    } else {
+      const data = await res.json();
+      alert(data.message);
+    }
+  };
+
+    const handleDeleteComment = async (commentId) => {
+    if (!window.confirm('Delete this comment?')) return;
+    const res = await fetch(`/api/photos/${id}/comments/${commentId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user._id })
+    });
+    if (res.ok) {
+      setComments(prev => prev.filter(c => c._id !== commentId));
     } else {
       const data = await res.json();
       alert(data.message);
@@ -91,9 +127,16 @@ export default function PhotoDetail({ user }) {
 
       <ul className="comments">
         {comments.map(c => (
-          <li key={c._id}>
-            <strong>{c.userId?.firstName} {c.userId?.lastName}</strong>{' '}
-            <span className="meta">{new Date(c.dateTime).toLocaleString()}</span>
+                    <li key={c._id}>
+            <div className="comment-head">
+              <span>
+                <strong>{c.userId?.firstName} {c.userId?.lastName}</strong>{' '}
+                <span className="meta">{new Date(c.dateTime).toLocaleString()}</span>
+              </span>
+              {user && c.userId?._id === user._id && (
+                <button className="btn btn-small" onClick={() => handleDeleteComment(c._id)}>Delete</button>
+              )}
+            </div>
             <p>{c.comment}</p>
           </li>
         ))}
